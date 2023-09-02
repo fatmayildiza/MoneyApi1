@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet ,ScrollView} from 'react-native';
+import { View, Text, Button, StyleSheet ,ScrollView, TouchableOpacity} from 'react-native';
 import { getCurrencyData } from '../services/CurrencyService';
 
 export default function HomeScreen({ navigation }) {
@@ -19,14 +19,17 @@ export default function HomeScreen({ navigation }) {
       <ScrollView style={styles.currencyList}>
 
       {Object.keys(currencyData).map((currency) => (
-        <Button
+        <TouchableOpacity
           key={currency}
           styles={styles.currencyItem}
           title={currency}
           onPress={() =>
-            navigation.navigate('Details', { currency, data: currencyData[currency] })
-          }
-        />
+            navigation.navigate('Details', { currency, data: currencyData[currency] })}
+            >   
+            <View style={styles.currencyContainer}> 
+            <Text style={styles.currencyText}>{currency}</Text>
+            </View>
+        </TouchableOpacity>
       ))}
       </ScrollView>
     </View>
@@ -41,18 +44,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 27,
+    color:'lightBlue',
     fontWeight: 'bold',
-    marginBottom: 20, // Başlığın altındaki boşluk
+    marginBottom: 9, 
   },
   currencyList: {
     width: '100%',
     maxHeight: 200,
     marginBottom: 20,
   },
-  currencyItem: {
+  currencyText: {
     padding: 16,
-    borderBottomWidth: 10,
+    color:'gray',
+  
+    fontSize:24,
+  },
+  currencyContainer:{
+    padding: 6,
+    borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    alignItems:'center'
   },
 });

@@ -6,12 +6,14 @@ export default function DetailsScreen({ route }) {
 
   return (
     <View style={styles.container}>
+    <View style= {styles.currencyList}>
       <Text style={styles.title}>Details Screen</Text>
       <Text style={styles.text}>Currency Code: {currency}</Text>
       <Text style={styles.text}>Currency Symbol: {data.symbol}</Text>
       <Text style={styles.text}>Currency Rate: {data.rate}</Text>
       <Text style={styles.text}>Currency Description: {data.description}</Text>
       <Text style={styles.text}>Currency Rate Float: {data.rate_float}</Text>
+    </View>
     </View>
   );
 }
@@ -22,6 +24,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff', // Arka plan rengi
     alignItems: 'center',
     justifyContent: 'center',
+   
+
+  },
+  currencyList: {
+    width: '100%',
+    maxHeight: 500,
+    marginBottom: 50,
+    padding: 6,
+    borderColor:'black',
+    borderWidth:3,
   },
   title: {
     fontSize: 24,
@@ -30,6 +42,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    marginBottom: 10, // Metinler arası boşluk
+    marginBottom: 20, 
+   
   },
 });
