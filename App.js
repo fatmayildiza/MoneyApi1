@@ -1,71 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
-import axios from 'axios';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text, StyleSheet, Button } from 'react-native'; // Stil için kullanılan bileşenler eklenir
+import HomeScreen from './screens/HomeScreen';
+import DetailsScreen from './screens/DetailsScreen';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // CoinDesk API'den verileri almak için Axios kullanalım
-    axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
-      .then(response => {
-        setData(Object.entries(response.data.bpi));
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.error(error);
-        setIsLoading(false);
-      });
-  }, []);
-
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Kripto Para Fiyatları</Text>
-      {isLoading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item[0]}
-          renderItem={({ item }) => (
-            <View style={styles.currencyContainer}>
-              <Text style={styles.currency}>{item[0]}</Text>
-              <Text style={styles.price}>{item[1].rate} {item[1].description}</Text>
-            </View>
-          )}
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: 'dodgerblue', // Başlık çubuğunun arka plan rengi
+          },
+          headerTintColor: 'white', // Başlık yazısı rengi
+          headerTitleStyle: {
+            fontWeight: 'bold', // Başlık yazısının kalınlığı
+          },
+        }}
+      >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            title: 'Ana Sayfa', // Başlık
+          }}
         />
-      )}
-    </SafeAreaView>
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{
+            title: 'Detay Sayfa',
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'darkblue',
-    padding: 20,
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  header: {
-    fontSize: 24,
-    color: 'white',
-    marginBottom: 20,
-    marginTop:73,
-  },
-  currencyContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    backgroundColor: 'lightgray',
     alignItems: 'center',
-    marginBottom: 10,
+    justifyContent: 'center',
   },
-  currency: {
+  text: {
     fontSize: 18,
-    color: 'white',
-  },
-  price: {
-    fontSize: 18,
-    color: 'white',
+    fontWeight: 'bold',
   },
 });
+
